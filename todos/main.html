@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>TODOs</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h1>TODOS</h1>
+        <ul class="todos"></ul>
+        <script>
+            const electron = require("electron");
+            const { ipcRenderer } = electron;
+
+            const $todos = document.querySelector(".todos");
+
+            ipcRenderer.on("todo:add", (_event, todo) => {
+                const li = document.createElement("li");
+                const text = document.createTextNode(todo);
+                li.appendChild(text);
+
+                $todos.appendChild(li);
+            });
+
+            ipcRenderer.on("todo:delete:all", _event => {
+                $todos.innerHTML = "";
+            });
+        </script>
+    </body>
+</html>
